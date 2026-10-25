@@ -1,14 +1,9 @@
 <svg width="16" height="16" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g fill="currentColor">
-  <!-- Y: Left Arm & Stem -->
-  <path d="M 270 320 L 350 320 L 460 520 L 460 704 L 380 704 L 380 560 L 270 320 Z" />
-  <!-- Y: Right Arm -->
-  <path d="M 570 320 L 490 320 L 420 450 L 465 528 L 570 320 Z" />
-  <!-- K: Vertical Stem -->
-  <path d="M 484 320 L 564 320 L 564 704 L 484 704 Z" />
-  <!-- K: Upper Diagonal Branch -->
-  <path d="M 564 480 L 680 320 L 760 320 L 620 510 Z" />
-  <!-- K: Lower Diagonal Branch -->
-  <path d="M 580 470 L 760 704 L 675 704 L 540 525 Z" />
+  <!-- Code Editor Symbol: < YK > -->
+  <path d="M 308 352 L 218 512 L 308 672 L 256 672 L 166 512 L 256 352 Z" />
+  <path d="M 342 352 L 394 352 L 420 478 L 446 352 L 498 352 L 446 500 L 446 672 L 394 672 L 394 500 Z" />
+  <path d="M 532 352 L 584 352 L 584 466 L 636 352 L 688 352 L 616 498 L 688 672 L 636 672 L 584 534 L 584 672 L 532 672 Z" />
+  <path d="M 716 352 L 768 352 L 858 512 L 768 672 L 716 672 L 806 512 Z" />
 </g>
 </svg>
