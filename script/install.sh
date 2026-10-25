@@ -14,6 +14,26 @@ main() {
     version="${YK_VERSION:-${WU_VERSION:-${ZED_VERSION:-latest}}}"
     bundle_path="${YK_BUNDLE_PATH:-${WU_BUNDLE_PATH:-${ZED_BUNDLE_PATH:-}}}"
 
+    suffix=""
+    if [ "$channel" != "stable" ]; then
+        suffix="-$channel"
+    fi
+
+    case "$channel" in
+      stable)
+        appid="io.github.yathink3.yk-editor"
+        app_name="YK Editor"
+        ;;
+      dev)
+        appid="io.github.yathink3.yk-editor-dev"
+        app_name="YK Editor Dev"
+        ;;
+      *)
+        appid="io.github.yathink3.yk-editor"
+        app_name="YK Editor"
+        ;;
+    esac
+
     if [ -n "${TMPDIR:-}" ] && [ -d "${TMPDIR}" ]; then
         temp="$(mktemp -d "$TMPDIR/yk-editor-XXXXXX")"
     else
@@ -95,7 +115,7 @@ main() {
 
     "$platform" "$@"
 
-    if [ "$(command -v yk-editor 2>/dev/null)" = "$HOME/.local/bin/yk-editor" ] || [ "$(command -v wu 2>/dev/null)" = "$HOME/.local/bin/wu" ]; then
+    if [ "$(command -v yk-editor 2>/dev/null)" = "$HOME/.local/bin/yk-editor" ]; then
         echo "YK Editor has been installed. Run with 'yk-editor'"
     else
         echo "To run YK Editor from your terminal, you must add ~/.local/bin to your PATH"
@@ -127,40 +147,19 @@ linux() {
         fetch_release_asset "yk-editor-linux-$arch.tar.gz" "wu-linux-$arch.tar.gz" "$tar_file"
     fi
 
-    suffix=""
-    if [ "$channel" != "stable" ]; then
-        suffix="-$channel"
-    fi
+    # Unpack into temp directory first to isolate from existing applications
+    mkdir -p "$temp/unpack"
+    tar -xzf "$tar_file" -C "$temp/unpack/"
 
-    appid=""
-    case "$channel" in
-      stable)
-        appid="io.github.yathink3.yk-editor"
-        ;;
-      dev)
-        appid="io.github.yathink3.yk-editor-dev"
-        ;;
-      *)
-        echo "Unknown release channel: ${channel}. Using stable app ID."
-        appid="io.github.yathink3.yk-editor"
-        ;;
-    esac
+    unpacked_app="$(cd "$temp/unpack/"; echo *.app)"
+    target_dir="$HOME/.local/yk-editor$suffix.app"
+    rm -rf "$target_dir"
+    mkdir -p "$HOME/.local"
+    mv "$temp/unpack/$unpacked_app" "$target_dir"
 
-    # Unpack
-    tar -xzf "$tar_file" -C "$HOME/.local/"
-
-    if [ -d "$HOME/.local/yk-editor$suffix.app" ]; then
-        app_dir="$HOME/.local/yk-editor$suffix.app"
-    elif [ -d "$HOME/.local/wu$suffix.app" ]; then
-        app_dir="$HOME/.local/wu$suffix.app"
-    else
-        echo "Could not find unpacked app directory in ~/.local/"
-        exit 1
-    fi
-
-    editor_binary="$app_dir/libexec/yk-editor"
+    editor_binary="$target_dir/libexec/yk-editor"
     if [ ! -f "$editor_binary" ]; then
-        editor_binary="$app_dir/libexec/wu-editor"
+        editor_binary="$target_dir/libexec/wu-editor"
     fi
     if [ -f "$editor_binary" ] && command -v ldd >/dev/null 2>&1; then
         missing="$(ldd "$editor_binary" 2>/dev/null | sed -n 's/^[[:space:]]*\(.*\) => not found$/\1/p')"
@@ -174,17 +173,16 @@ linux() {
     # Setup ~/.local directories
     mkdir -p "$HOME/.local/bin" "$HOME/.local/share/applications"
 
-    # Link the binary
-    cli_bin="$app_dir/bin/yk-editor"
+    # Link the binary as yk-editor (independent from any existing editors)
+    cli_bin="$target_dir/bin/yk-editor"
     if [ ! -f "$cli_bin" ]; then
-        cli_bin="$app_dir/bin/wu"
+        cli_bin="$target_dir/bin/wu"
     fi
     ln -sf "$cli_bin" "$HOME/.local/bin/yk-editor"
-    ln -sf "$cli_bin" "$HOME/.local/bin/wu"
 
     # Copy .desktop file
     desktop_file_path="$HOME/.local/share/applications/${appid}.desktop"
-    src_dir="$app_dir/share/applications"
+    src_dir="$target_dir/share/applications"
     if [ -f "$src_dir/${appid}.desktop" ]; then
         cp "$src_dir/${appid}.desktop" "${desktop_file_path}"
     elif [ -f "$src_dir/me.farshed.Wu.desktop" ]; then
@@ -192,9 +190,9 @@ linux() {
     fi
 
     if [ -f "${desktop_file_path}" ]; then
-        icon_path="$app_dir/share/icons/hicolor/512x512/apps/yk-editor.png"
+        icon_path="$target_dir/share/icons/hicolor/512x512/apps/yk-editor.png"
         if [ ! -f "$icon_path" ]; then
-            icon_path="$app_dir/share/icons/hicolor/512x512/apps/wu.png"
+            icon_path="$target_dir/share/icons/hicolor/512x512/apps/wu.png"
         fi
         sed -i "s|Icon=.*|Icon=${icon_path}|g" "${desktop_file_path}"
         sed -i "s|Exec=.*|Exec=$HOME/.local/bin/yk-editor|g" "${desktop_file_path}"
@@ -211,19 +209,33 @@ macos() {
 
     mkdir -p "$temp/mount"
     hdiutil attach -quiet "$dmg_file" -mountpoint "$temp/mount"
-    app="$(cd "$temp/mount/"; echo *.app)"
-    echo "Installing $app"
-    if [ -d "/Applications/$app" ]; then
-        echo "Removing existing $app"
-        rm -rf "/Applications/$app"
+
+    target_app="/Applications/${app_name}.app"
+    source_app="$(cd "$temp/mount/"; echo *.app)"
+
+    echo "Installing ${app_name}"
+    if [ -d "$target_app" ]; then
+        echo "Removing existing $target_app"
+        rm -rf "$target_app"
     fi
-    ditto "$temp/mount/$app" "/Applications/$app"
+    ditto "$temp/mount/$source_app" "$target_app"
     hdiutil detach -quiet "$temp/mount"
 
+    # If installed from fallback DMG, adjust bundle display name and identifier
+    if [ "$source_app" != "${app_name}.app" ]; then
+        if command -v plutil >/dev/null 2>&1; then
+            plutil -replace CFBundleDisplayName -string "$app_name" "$target_app/Contents/Info.plist" 2>/dev/null || true
+            plutil -replace CFBundleName -string "$app_name" "$target_app/Contents/Info.plist" 2>/dev/null || true
+            plutil -replace CFBundleIdentifier -string "$appid" "$target_app/Contents/Info.plist" 2>/dev/null || true
+        fi
+        if command -v codesign >/dev/null 2>&1; then
+            codesign --force --deep -s - "$target_app" 2>/dev/null || true
+        fi
+    fi
+
     mkdir -p "$HOME/.local/bin"
-    # Link the binary
-    ln -sf "/Applications/$app/Contents/MacOS/cli" "$HOME/.local/bin/yk-editor"
-    ln -sf "/Applications/$app/Contents/MacOS/cli" "$HOME/.local/bin/wu"
+    # Link only the yk-editor command so existing tools remain untouched
+    ln -sf "$target_app/Contents/MacOS/cli" "$HOME/.local/bin/yk-editor"
 }
 
 main "$@"
