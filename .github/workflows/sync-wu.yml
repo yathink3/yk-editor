@@ -1,0 +1,135 @@
+name: Sync Upstream (dstrml/wu)
+
+on:
+  schedule:
+    # Run every 6 hours
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Add and Fetch Upstream
+        id: fetch-upstream
+        run: |
+          git remote add upstream https://github.com/dstrml/wu.git || git remote set-url upstream https://github.com/dstrml/wu.git
+          git fetch upstream main
+          
+          # Check for new commits
+          NEW_COMMITS=$(git log HEAD..upstream/main --oneline)
+          if [ -z "$NEW_COMMITS" ]; then
+            echo "No new commits found from dstrml/wu."
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "New commits detected!"
+            echo "has_changes=true" >> "$GITHUB_OUTPUT"
+            COMMIT_COUNT=$(git rev-list --count HEAD..upstream/main)
+            echo "commit_count=$COMMIT_COUNT" >> "$GITHUB_OUTPUT"
+            
+            # Save commit list to file
+            git log HEAD..upstream/main --pretty=format:"- %h %s (%an, %ar)" > commits.txt
+          fi
+
+      - name: Merge Upstream Changes
+        id: merge
+        if: steps.fetch-upstream.outputs.has_changes == 'true'
+        run: |
+          sync_branch="sync/upstream-wu-$(date +%Y%m%d-%H%M%S)"
+          git checkout -b "$sync_branch"
+          
+          echo "Attempting merge of upstream/main..."
+          if git merge --no-edit -m "Merge upstream changes from dstrml/wu" upstream/main; then
+            echo "Clean merge achieved."
+            echo "conflict=false" >> "$GITHUB_OUTPUT"
+            echo "branch=$sync_branch" >> "$GITHUB_OUTPUT"
+            git push origin "$sync_branch"
+            
+            # Attempt fast-forward or push to main
+            git checkout main
+            git merge --ff-only "$sync_branch" || git merge --no-edit "$sync_branch"
+            git push origin main
+          else
+            echo "Merge conflicts detected!"
+            echo "conflict=true" >> "$GITHUB_OUTPUT"
+            echo "branch=$sync_branch" >> "$GITHUB_OUTPUT"
+            git status --porcelain | grep '^UU' > conflicts.txt || true
+            git merge --abort
+          fi
+
+      - name: Notify Success (Create Issue / PR)
+        if: steps.fetch-upstream.outputs.has_changes == 'true' && steps.merge.outputs.conflict == 'false'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          COMMITS=$(cat commits.txt)
+          COUNT="${{ steps.fetch-upstream.outputs.commit_count }}"
+          BRANCH="${{ steps.merge.outputs.branch }}"
+          
+          BODY=$(cat <<EOF
+          ## Upstream Changes Synced
+          
+          Successfully pulled **$COUNT new commit(s)** from [dstrml/wu](https://github.com/dstrml/wu) into **main**.
+          
+          ### Incoming Commits:
+          $COMMITS
+          
+          **Synced Branch:** \`$BRANCH\`
+          EOF
+          )
+          
+          gh issue create \
+            --title "Synced $COUNT new commit(s) from dstrml/wu" \
+            --body "$BODY" \
+            --label "upstream-sync" || echo "Issue creation skipped"
+
+      - name: Notify Merge Conflict (Create Alert Issue)
+        if: steps.fetch-upstream.outputs.has_changes == 'true' && steps.merge.outputs.conflict == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          COMMITS=$(cat commits.txt)
+          CONFLICTS=$(cat conflicts.txt 2>/dev/null || echo "See git status")
+          COUNT="${{ steps.fetch-upstream.outputs.commit_count }}"
+          
+          BODY=$(cat <<EOF
+          ## Upstream Sync Alert: Conflicts Detected
+          
+          Detected **$COUNT new commit(s)** from [dstrml/wu](https://github.com/dstrml/wu), but automatic merge encountered conflicts.
+          
+          ### Conflicting Files:
+          \`\`\`
+          $CONFLICTS
+          \`\`\`
+          
+          ### Incoming Commits:
+          $COMMITS
+          
+          ### How to Resolve Locally:
+          Run the following in your local \`projects/yk-editor\` folder:
+          \`\`\`bash
+          ./script/sync-upstream.sh
+          \`\`\`
+          EOF
+          )
+          
+          gh issue create \
+            --title "Action Required: Upstream merge conflicts from dstrml/wu" \
+            --body "$BODY" \
+            --label "upstream-sync,needs-attention" || echo "Issue creation skipped"

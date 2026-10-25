@@ -17,16 +17,16 @@ export interface Route {
 }
 
 export const routes: Route[] = [
-  { path: '/', element: <Home />, entry: 'home', meta: { title: 'Wu: the fast, native code editor and agent workspace' } },
+  { path: '/', element: <Home />, entry: 'home', meta: { title: 'YK Editor: the fast, native code editor and agent workspace' } },
   {
     path: '/docs',
     element: <Docs />,
-    meta: { title: 'Wu Docs', description: 'How Wu differs from Zed: what is removed, what is different, and where things live.' }
+    meta: { title: 'YK Editor Docs', description: 'YK Editor documentation, configuration, and features.' }
   },
   {
     path: '/support',
     element: <Support />,
-    meta: { title: 'Support Wu', description: 'Wu is free and open source. Donate on Open Collective to help keep it going.' }
+    meta: { title: 'Support YK Editor', description: 'YK Editor is free and open source.' }
   },
-  { path: '/404', element: <NotFound />, meta: { title: 'Page not found · Wu' } }
+  { path: '/404', element: <NotFound />, meta: { title: 'Page not found · YK Editor' } }
 ];

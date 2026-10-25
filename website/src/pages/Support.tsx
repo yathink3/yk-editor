@@ -10,14 +10,13 @@ export function Support() {
     <>
       <Header />
       <main className="mx-auto flex max-w-[640px] flex-col items-center px-8 pt-44 pb-16 text-center max-sm:px-4 max-sm:pt-32">
-        <h1 className="text-[clamp(36px,5vw,48px)] leading-[1.1] font-medium tracking-[-0.03em]">Support Wu</h1>
+        <h1 className="text-[clamp(36px,5vw,48px)] leading-[1.1] font-medium tracking-[-0.03em]">Support YK Editor</h1>
         <div className="mt-8 flex flex-col gap-5">
           <p className={`${sectionBody} text-balance`}>
-            Wu is free and open source, with no account and no telemetry. It's built and maintained by one developer.
+            YK Editor is free and open source, with no account and no telemetry.
           </p>
           <p className={`${sectionBody} text-balance`}>
-            If Wu is part of your day, a donation helps pay for the time it takes to fix bugs, add features and keep Wu
-            up to date with Zed.
+            If YK Editor is part of your day, star the repository, report issues, and tell fellow developers!
           </p>
         </div>
         <a className="btn btn-lg btn-light mt-12" href={OPEN_COLLECTIVE_URL} target="_blank" rel="noopener">

@@ -14,7 +14,7 @@ export function Header({ downloadHref = '/#download' }: { downloadHref?: string 
           href="/"
         >
           <AppIcon className="size-8 rounded-full" />
-          Wu
+          YK Editor
         </a>
         <nav className={`${glassPill} flex gap-0.5 p-1`}>
           <a className="btn btn-md btn-ghost" href="/docs/">

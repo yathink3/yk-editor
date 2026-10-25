@@ -178,29 +178,29 @@ function BuildInstaller {
         "stable" {
             $appId = "{{2DB0DA96-CA55-49BB-AF4F-64AF36A86712}"
             $appIconName = "app-icon"
-            $appName = "Wu"
-            $appDisplayName = "Wu"
-            $appSetupName = "Wu-$Architecture"
+            $appName = "YK Editor"
+            $appDisplayName = "YK Editor"
+            $appSetupName = "YK-Editor-$Architecture"
             # Must match `app_identifier()` in crates/release_channel/src/lib.rs plus the "-Instance-Mutex" suffix
             # used by crates/wu/src/wu/windows_only_instance.rs.
-            $appMutex = "Wu-Editor-Stable-Instance-Mutex"
-            $appExeName = "Wu"
-            $regValueName = "Wu"
-            $appUserId = "Farshed.Wu"
-            $appShellNameShort = "W&u"
+            $appMutex = "YK-Editor-Stable-Instance-Mutex"
+            $appExeName = "YK-Editor"
+            $regValueName = "YKEditor"
+            $appUserId = "io.github.yathink3.yk-editor"
+            $appShellNameShort = "YK &Editor"
             $appAppxFullName = "Farshed.Wu_1.0.0.0_neutral__japxn1gcva8rg"
         }
         "dev" {
             $appId = "{{8357632E-24A4-4F32-BA97-E575B4D1FE5D}"
             $appIconName = "app-icon-dev"
-            $appName = "Wu Dev"
-            $appDisplayName = "Wu Dev"
-            $appSetupName = "Wu-$Architecture"
-            $appMutex = "Wu-Editor-Dev-Instance-Mutex"
-            $appExeName = "Wu"
-            $regValueName = "WuDev"
-            $appUserId = "Farshed.Wu.Dev"
-            $appShellNameShort = "W&u Dev"
+            $appName = "YK Editor Dev"
+            $appDisplayName = "YK Editor Dev"
+            $appSetupName = "YK-Editor-$Architecture"
+            $appMutex = "YK-Editor-Dev-Instance-Mutex"
+            $appExeName = "YK-Editor"
+            $regValueName = "YKEditorDev"
+            $appUserId = "io.github.yathink3.yk-editor-dev"
+            $appShellNameShort = "YK &Editor Dev"
             $appAppxFullName = "Farshed.Wu_1.0.0.0_neutral__japxn1gcva8rg"
         }
         default {
@@ -268,8 +268,8 @@ Pop-Location
 if ($buildSuccess) {
     Write-Output "Build successful"
     if ($Install) {
-        Write-Output "Installing Wu..."
-        Start-Process -FilePath "$workspace/target/Wu-$Architecture.exe"
+        Write-Output "Installing YK Editor..."
+        Start-Process -FilePath "$workspace/target/YK-Editor-$Architecture.exe"
     }
     exit 0
 }

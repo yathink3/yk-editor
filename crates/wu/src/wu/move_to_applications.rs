@@ -73,9 +73,9 @@ impl MoveToApplicationsRequest {
         let response = cx
             .prompt(
                 PromptLevel::Info,
-                "Move Wu to Applications?",
+                "Move YK Editor to Applications?",
                 Some(
-                    "Wu is running from a temporary location. Move it to Applications to finish installing it.",
+                    "YK Editor is running from a temporary location. Move it to Applications to finish installing it.",
                 ),
                 &[
                     PromptButton::ok("Yes"),
@@ -199,9 +199,9 @@ impl Render for InstallingZedModal {
                     .child(
                         v_flex()
                             .gap_1()
-                            .child(Label::new("Moving Wu to Applications"))
+                            .child(Label::new("Moving YK Editor to Applications"))
                             .child(
-                                Label::new("Wu will reopen when installation is complete.")
+                                Label::new("YK Editor will reopen when installation is complete.")
                                     .size(LabelSize::Small)
                                     .color(Color::Muted),
                             ),

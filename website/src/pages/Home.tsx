@@ -82,7 +82,7 @@ export function Home() {
                 <div className="mt-2 flex flex-wrap gap-2">
                   <a className="btn btn-lg btn-light" href={downloadHref}>
                     <Download size={18} aria-hidden="true" />
-                    {direct && platform ? `Download for ${platformNames[platform]}` : 'Download Wu'}
+                    {direct && platform ? `Download for ${platformNames[platform]}` : 'Download YK Editor'}
                   </a>
                   <a className="btn btn-lg btn-primary" href="#download">
                     All platforms
@@ -102,7 +102,7 @@ export function Home() {
           text={
             <>
               <h2 className={sectionTitle}>Light on memory</h2>
-              <p className={sectionBody}>Wu used less memory than Zed and VS Code in every test we ran.</p>
+              <p className={sectionBody}>YK Editor used less memory than Zed and VS Code in every test we ran.</p>
               <a className="btn btn-md btn-light mt-2" href={MEMORY_BENCHMARK_URL} target="_blank" rel="noopener">
                 See benchmarks
                 <ArrowUpRight size={18} aria-hidden="true" />
@@ -130,8 +130,8 @@ export function Home() {
         <CenterSection>
           <h2 className={sectionTitle}>Open source, built on Zed</h2>
           <p className={sectionBody}>
-            Wu is a fork of Zed. It keeps Zed's editor core, GPU rendering and language tooling, and every Zed
-            extension works in Wu.
+            YK Editor is a fork of Wu (and Zed). It keeps Zed's editor core, GPU rendering and language tooling, and every Zed
+            extension works in YK Editor.
           </p>
           <div className="mt-2 flex flex-wrap justify-center gap-2">
             <a className="btn btn-md btn-light" href={REPO_URL} target="_blank" rel="noopener">
@@ -146,10 +146,10 @@ export function Home() {
         </CenterSection>
 
         <CenterSection id="download">
-          <AppIcon className="mb-2 size-24 rounded-[24%]" alt="Wu app icon" />
+          <AppIcon className="mb-2 size-24 rounded-[24%]" alt="YK Editor app icon" />
           <h2 className={sectionTitle}>Ready when you are</h2>
           <p className={`${sectionBody} max-w-[520px]`}>
-            Wu is free and takes a minute to install.{' '}
+            YK Editor is free and takes a minute to install.{' '}
             {hasInstallScript ? 'Run this in your terminal.' : 'Pick your platform.'}
           </p>
           {hasInstallScript ? (

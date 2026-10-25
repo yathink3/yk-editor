@@ -658,7 +658,7 @@ impl ManagedNodeRuntime {
                         true
                     } else {
                         log::warn!(
-                            "Wu managed Node.js binary at {} failed check with output: {:?}",
+                            "YK Editor managed Node.js binary at {} failed check with output: {:?}",
                             node_binary.display(),
                             output
                         );

@@ -99,7 +99,7 @@ use wu_actions::{
     OpenWuUrl, Quit,
 };
 
-const DOCS_URL: &str = "https://wu.dstrml.org/docs";
+const DOCS_URL: &str = "https://github.com/yathink3/yk-editor#docs";
 
 actions!(
     wu,

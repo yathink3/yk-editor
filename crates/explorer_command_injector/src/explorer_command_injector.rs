@@ -172,7 +172,7 @@ fn get_zed_install_folder() -> Option<PathBuf> {
 
 #[inline]
 fn get_zed_exe_path() -> Option<String> {
-    get_zed_install_folder().map(|path| path.join("Wu.exe").to_string_lossy().into_owned())
+    get_zed_install_folder().map(|path| path.join("YK-Editor.exe").to_string_lossy().into_owned())
 }
 
 #[inline]

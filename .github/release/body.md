@@ -1,1 +1,1 @@
-See [Readme](https://github.com/dstrml/wu#install) for installation instructions.
+See [Readme](https://github.com/yathink3/yk-editor#install) for installation instructions.

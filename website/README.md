@@ -1,6 +1,6 @@
-# Wu website
+# YK Editor website
 
-The site at [wu.dstrml.org](https://wu.dstrml.org). React and Tailwind, prerendered to static HTML with Bun.
+The site for YK Editor. React and Tailwind, prerendered to static HTML with Bun.
 
 ```sh
 bun install

@@ -688,8 +688,8 @@ impl ProtoClient for Client {
     }
 }
 
-/// prefix for the wu:// url scheme
-pub const ZED_URL_SCHEME: &str = "wu";
+/// prefix for the yk-editor:// url scheme
+pub const ZED_URL_SCHEME: &str = "yk-editor";
 
 #[cfg(test)]
 mod tests {

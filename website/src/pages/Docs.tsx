@@ -3,11 +3,11 @@ import { Header } from '../components/Header';
 import { INSTALL_COMMAND, INSTALL_GUIDE_URL, RAYCAST_URL, ZED_DOCS_URL } from '../consts';
 
 const paths = [
-  { label: 'Command line', path: 'wu' },
-  { label: 'Settings (macOS, Linux)', path: '~/.config/wu' },
-  { label: 'Settings (Windows)', path: '%APPDATA%\\Wu' },
-  { label: 'App data (macOS)', path: '~/Library/Application Support/Wu' },
-  { label: 'Project settings', path: '.wu/' }
+  { label: 'Command line', path: 'yk-editor' },
+  { label: 'Settings (macOS, Linux)', path: '~/.config/yk-editor' },
+  { label: 'Settings (Windows)', path: '%APPDATA%\\YK Editor' },
+  { label: 'App data (macOS)', path: '~/Library/Application Support/YK Editor' },
+  { label: 'Project settings', path: '.yk-editor/' }
 ];
 
 export function Docs() {
@@ -18,17 +18,17 @@ export function Docs() {
         <h1>Docs</h1>
 
         <div className="mb-6 rounded-xl card-raised px-5 py-[18px] text-[17px] leading-normal text-secondary [&_a]:text-primary [&_a]:underline [&_a]:underline-offset-2">
-          This page covers what is specific to Wu. Wu shares its editor core with Zed, so for settings, key bindings,
+          This page covers what is specific to YK Editor. YK Editor shares its editor core with Zed, so for settings, key bindings,
           languages, extensions, tasks, debugging, and remote development, the{' '}
           <a href={ZED_DOCS_URL} target="_blank" rel="noopener">
             Zed documentation
           </a>{' '}
-          applies to Wu as well.
+          applies to YK Editor as well.
         </div>
 
         <h2>Getting started</h2>
         <p>
-          On macOS and Linux, run <code>{INSTALL_COMMAND}</code> in your terminal. Or download Wu for your platform and
+          On macOS and Linux, run <code>{INSTALL_COMMAND}</code> in your terminal. Or download YK Editor for your platform and
           follow the{' '}
           <a href={INSTALL_GUIDE_URL} target="_blank" rel="noopener">
             install guide
@@ -52,8 +52,8 @@ export function Docs() {
 
         <h2 id="agent-chat">Agent Chat</h2>
         <p>
-          Chat with Claude Code, Codex or OpenCode inside Wu. It uses the command line tools you already have installed
-          and signed in, so there are no API keys and no Wu account.
+          Chat with Claude Code, Codex or OpenCode inside YK Editor. It uses the command line tools you already have installed
+          and signed in, so there are no API keys and no YK Editor account.
         </p>
         <ul>
           <li>
@@ -101,11 +101,11 @@ export function Docs() {
         </ul>
 
         <h2>Extensions</h2>
-        <p>Wu installs extensions from the Zed extension registry, and they work in Wu without changes.</p>
+        <p>YK Editor installs extensions from the Zed extension registry, and they work in YK Editor without changes.</p>
 
         <h2>Privacy</h2>
         <p>
-          Wu has no account, no telemetry, and no crash reporting. It never sends your usage data anywhere. Agent Chat
+          YK Editor has no account, no telemetry, and no crash reporting. It never sends your usage data anywhere. Agent Chat
           only talks to the providers behind the tools you use.
         </p>
 
@@ -116,12 +116,12 @@ export function Docs() {
           <li>Dev containers.</li>
           <li>The REPL and the journal.</li>
         </ul>
-        <p className="text-tertiary!">If a setting or key binding in the Zed docs belongs to one of these, it has no effect in Wu.</p>
+        <p className="text-tertiary!">If a setting or key binding in the Zed docs belongs to one of these, it has no effect in YK Editor.</p>
 
         <h2>Coming from Zed</h2>
         <p>
-          Wu and Zed can be installed side by side. They keep separate settings, so copy your <code>settings.json</code>{' '}
-          and <code>keymap.json</code> from <code>~/.config/zed</code> to <code>~/.config/wu</code> if you want the
+          YK Editor and Zed can be installed side by side. They keep separate settings, so copy your <code>settings.json</code>{' '}
+          and <code>keymap.json</code> from <code>~/.config/zed</code> to <code>~/.config/yk-editor</code> if you want the
           same setup in both.
         </p>
 
@@ -129,13 +129,13 @@ export function Docs() {
         <p>
           On macOS, install the{' '}
           <a href={RAYCAST_URL} target="_blank" rel="noopener">
-            Wu extension for Raycast
+            YK Editor extension for Raycast
           </a>{' '}
           to open recent projects, new windows, and settings from Raycast.
         </p>
 
         <h2>License</h2>
-        <p>Wu is distributed under GPL-3.0-or-later, with Apache-2.0 components where marked.</p>
+        <p>YK Editor is distributed under GPL-3.0-or-later, with Apache-2.0 components where marked.</p>
       </main>
       <Footer />
     </>

@@ -51,4 +51,4 @@ const server = serve({
   }
 });
 
-console.log(`Wu website running at ${server.url}`);
+console.log(`YK Editor website running at ${server.url}`);

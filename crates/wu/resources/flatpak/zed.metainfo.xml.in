@@ -6,12 +6,12 @@
 
     <name>$APP_NAME</name>
     <summary>The fast, native code editor that doesn't get in your way</summary>
-    <developer id="me.farshed">
-        <name translate="no">Farshed</name>
+    <developer id="io.github.yathink3">
+        <name translate="no">Yathin k</name>
     </developer>
     <description>
         <p>
-            Wu is a code editor for people who want the speed of a native app and the familiarity of VS Code. Built on the Zed engine, it keeps the editor core, GPU rendering, and language tooling, then strips out everything that isn't editing.
+            YK Editor is a code editor for people who want the speed of a native app and the familiarity of VS Code. Built on the Zed engine, it keeps the editor core, GPU rendering, and language tooling, then strips out everything that isn't editing.
         </p>
         <p>Features:</p>
         <ul>
@@ -31,11 +31,11 @@
 
     <content_rating type="oars-1.1" />
 
-    <url type="homepage">https://wu.dstrml.org</url>
-    <url type="bugtracker">https://github.com/dstrml/wu/issues</url>
-    <url type="help">https://wu.dstrml.org/docs</url>
-    <url type="contact">https://github.com/dstrml/wu/issues</url>
-    <url type="vcs-browser">https://github.com/dstrml/wu</url>
+    <url type="homepage">https://github.com/yathink3/yk-editor</url>
+    <url type="bugtracker">https://github.com/yathink3/yk-editor/issues</url>
+    <url type="help">https://github.com/yathink3/yk-editor#docs</url>
+    <url type="contact">https://github.com/yathink3/yk-editor/issues</url>
+    <url type="vcs-browser">https://github.com/yathink3/yk-editor</url>
 
     <supports>
         <internet>offline-only</internet>
@@ -48,8 +48,8 @@
 
     <screenshots>
         <screenshot type="default">
-            <caption>Wu with a project open</caption>
-            <image>https://wu.dstrml.org/screenshot.png</image>
+            <caption>YK Editor with a project open</caption>
+            <image>https://raw.githubusercontent.com/yathink3/yk-editor/main/website/public/screenshot.png</image>
         </screenshot>
     </screenshots>
 

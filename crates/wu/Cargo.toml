@@ -230,19 +230,19 @@ search = { workspace = true, features = ["test-support"] }
 
 [package.metadata.bundle-dev]
 icon = ["resources/app-icon-dev@2x.png", "resources/app-icon-dev.png"]
-identifier = "me.farshed.Wu-Dev"
-name = "Wu Dev"
+identifier = "io.github.yathink3.yk-editor-dev"
+name = "YK Editor Dev"
 osx_minimum_system_version = "10.15.7"
 osx_info_plist_exts = ["resources/info/*"]
-osx_url_schemes = ["wu"]
+osx_url_schemes = ["yk-editor", "wu"]
 
 [package.metadata.bundle-stable]
 icon = ["resources/app-icon@2x.png", "resources/app-icon.png"]
-identifier = "me.farshed.Wu"
-name = "Wu"
+identifier = "io.github.yathink3.yk-editor"
+name = "YK Editor"
 osx_minimum_system_version = "10.15.7"
 osx_info_plist_exts = ["resources/info/*"]
-osx_url_schemes = ["wu"]
+osx_url_schemes = ["yk-editor", "wu"]
 
 [package.metadata.cargo-shear]
 ignored = ["profiling", "tracing"]

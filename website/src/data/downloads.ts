@@ -14,11 +14,11 @@ export interface Download {
 const latest = (file: string) => `${RELEASES_URL}/latest/download/${file}`;
 
 export const downloads: Download[] = [
-  { label: 'macOS (Apple Silicon)', href: latest('Wu-aarch64.dmg'), platform: 'mac', architecture: 'arm' },
-  { label: 'macOS (Intel)', href: latest('Wu-x86_64.dmg'), platform: 'mac', architecture: 'x86' },
-  { label: 'Windows (x86-64)', href: latest('Wu-x86_64.exe'), platform: 'windows' },
-  { label: 'Linux (x86-64)', href: latest('wu-linux-x86_64.tar.gz'), platform: 'linux' },
-  { label: 'Linux (AArch64)', href: latest('wu-linux-aarch64.tar.gz') }
+  { label: 'macOS (Apple Silicon)', href: latest('YK-Editor-aarch64.dmg'), platform: 'mac', architecture: 'arm' },
+  { label: 'macOS (Intel)', href: latest('YK-Editor-x86_64.dmg'), platform: 'mac', architecture: 'x86' },
+  { label: 'Windows (x86-64)', href: latest('YK-Editor-x86_64.exe'), platform: 'windows' },
+  { label: 'Linux (x86-64)', href: latest('yk-editor-linux-x86_64.tar.gz'), platform: 'linux' },
+  { label: 'Linux (AArch64)', href: latest('yk-editor-linux-aarch64.tar.gz') }
 ];
 
 export const platformNames: Record<Platform, string> = {

@@ -57,10 +57,10 @@ pub fn app_menus(cx: &mut App) -> Vec<Menu> {
 
     vec![
         Menu {
-            name: "Wu".into(),
+            name: "YK Editor".into(),
             disabled: false,
             items: vec![
-                MenuItem::action("About Wu", wu_actions::About),
+                MenuItem::action("About YK Editor", wu_actions::About),
                 MenuItem::action("Check for Updates", auto_update::Check),
                 MenuItem::separator(),
                 MenuItem::submenu(Menu::new("Settings").items([
@@ -303,13 +303,13 @@ pub fn app_menus(cx: &mut App) -> Vec<Menu> {
                 MenuItem::action(
                     "Documentation",
                     super::OpenBrowser {
-                        url: "https://wu.dstrml.org/docs".into(),
+                        url: "https://github.com/yathink3/yk-editor#docs".into(),
                     },
                 ),
                 MenuItem::action(
-                    "Wu Repository",
+                    "YK Editor Repository",
                     super::OpenBrowser {
-                        url: "https://github.com/dstrml/wu".into(),
+                        url: "https://github.com/yathink3/yk-editor".into(),
                     },
                 ),
             ],

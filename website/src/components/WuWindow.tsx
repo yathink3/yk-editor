@@ -1250,7 +1250,7 @@ export function WuWindow() {
           <span className="size-3 rounded-full bg-[#febc2e]" />
           <span className="size-3 rounded-full bg-[#28c840]" />
         </span>
-        <span className={`flex h-[22px] items-center rounded-[4px] px-1 ${hover}`}>wu</span>
+        <span className={`flex h-[22px] items-center rounded-[4px] px-1 ${hover}`}>yk-editor</span>
         <span className="flex items-center gap-px" style={{ color: muted }}>
           <span className={`flex h-[22px] items-center gap-1 rounded-[4px] px-1 ${hover}`}>
             <Icon name="git_worktree" size={12} />

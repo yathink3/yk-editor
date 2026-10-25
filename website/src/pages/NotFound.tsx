@@ -10,7 +10,7 @@ export function NotFound() {
         <h1 className="text-[clamp(36px,5vw,48px)] leading-[1.1] font-medium tracking-[-0.03em]">Page not found</h1>
         <p className={sectionBody}>This page doesn't exist or has moved.</p>
         <a className="btn btn-md btn-primary mt-2" href="/">
-          Back to Wu
+          Back to YK Editor
         </a>
       </main>
       <Footer />

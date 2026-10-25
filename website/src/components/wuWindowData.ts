@@ -330,7 +330,7 @@ version = "2.0.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a33bd3e260892199c3ccfc487c88b2da2265080acb316cd920da72fdfd7c599f"`;
 
-const readme = `# Wu
+const readme = `# YK Editor
 
 The fast, native code editor and agent workspace. Written in Rust.
 
@@ -344,7 +344,7 @@ The fast, native code editor and agent workspace. Written in Rust.
 
 Install Rust, then run \`cargo run --release\` from the repository root.
 
-See [the docs](docs/) for how Wu differs from Zed.`;
+See [the docs](docs/) for how YK Editor differs from Zed.`;
 
 export const files: MockFile[] = [
   {
@@ -398,7 +398,7 @@ export const files: MockFile[] = [
 export const fileByPath = new Map(files.map((file) => [file.path, file]));
 
 export const tree: TreeFolder = {
-  name: 'wu',
+  name: 'yk-editor',
   path: '',
   children: [
     { name: '.github', path: '.github', children: [] },
@@ -554,7 +554,7 @@ export const chats: MockChat[] = [
 ];
 
 export const previewReply =
-  "This is only a preview, so there's no agent behind it. In Wu, Claude Code or Codex answers right here, using the CLI you already have signed in.";
+  "This is only a preview, so there's no agent behind it. In YK Editor, Claude Code or Codex answers right here, using the CLI you already have signed in.";
 
 export type TokenKind =
   | 'keyword'

@@ -30,7 +30,6 @@ rustflags = ["-C", "link-arg=-fuse-ld=lld"]
 rustflags = [
     "-C", "symbol-mangling-version=v0",
     "--cfg", "tokio_unstable",
-    "-C", "link-arg=-fuse-ld=/opt/homebrew/opt/lld/bin/ld64.lld",
 ]
 
 [env]

@@ -1,24 +1,24 @@
-name: wu
-title: Wu
+name: yk-editor
+title: YK Editor
 base: core24
 version: "$RELEASE_VERSION"
-summary: The editor that doesn't get in your way
+summary: The fast, native code editor and agent workspace
 description: |
-  Wu is a fast, native code editor built in Rust with a GPU-accelerated
+  YK Editor is a fast, native code editor built in Rust with a GPU-accelerated
   renderer. It pairs the speed of a native app with the familiarity of
   VS Code and stays out of your way.
 grade: stable
 confinement: classic
 compression: lzo
-website: https://wu.dstrml.org/
-source-code: https://github.com/dstrml/wu
-issues: https://github.com/dstrml/wu/issues
-contact: https://github.com/dstrml/wu/issues
+website: https://github.com/yathink3/yk-editor
+source-code: https://github.com/yathink3/yk-editor
+issues: https://github.com/yathink3/yk-editor/issues
+contact: https://github.com/yathink3/yk-editor/issues
 
 parts:
-  wu:
+  yk-editor:
     plugin: dump
-    source: "https://github.com/dstrml/wu/releases/download/v$RELEASE_VERSION/wu-linux-x86_64.tar.gz"
+    source: "https://github.com/yathink3/yk-editor/releases/download/v$RELEASE_VERSION/yk-editor-linux-x86_64.tar.gz"
 
     organize:
       # These renames seem to not be necessary, but it's tidier.

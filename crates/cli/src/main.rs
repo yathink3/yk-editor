@@ -48,21 +48,21 @@ trait InstalledApp {
 
 #[derive(Parser, Debug)]
 #[command(
-    name = "wu",
+    name = "yk-editor",
     disable_version_flag = true,
-    before_help = "The Wu CLI binary.
-This CLI is a separate binary that invokes Wu.
+    before_help = "The YK Editor CLI binary.
+This CLI is a separate binary that invokes YK Editor.
 
 Examples:
-    `wu`
-          Simply opens Wu
-    `wu --foreground`
+    `yk-editor`
+          Simply opens YK Editor
+    `yk-editor --foreground`
           Runs in foreground (shows all logs)
-    `wu path-to-your-project`
-          Open your project in Wu
-    `wu -n path-to-file `
+    `yk-editor path-to-your-project`
+          Open your project in YK Editor
+    `yk-editor -n path-to-file `
           Open file/folder in a new window",
-    after_help = "To read from stdin, append '-', e.g. 'ps axf | wu -'"
+    after_help = "To read from stdin, append '-', e.g. 'ps axf | yk-editor -'"
 )]
 struct Args {
     /// Wait for all of the given paths to be opened/closed before exiting.
@@ -79,7 +79,7 @@ struct Args {
     /// Reuse an existing window, replacing its workspace
     #[arg(short, long, overrides_with_all = ["add", "new", "existing", "classic"], hide = true)]
     reuse: bool,
-    /// Open in existing Wu window
+    /// Open in existing YK Editor window
     #[arg(short = 'e', long = "existing", overrides_with_all = ["add", "new", "reuse", "classic"])]
     existing: bool,
     /// Use the classic open behavior: new window for directories, reuse for files
@@ -95,12 +95,12 @@ struct Args {
     )]
     #[arg(long, value_name = "DIR", value_hint = clap::ValueHint::DirPath)]
     user_data_dir: Option<String>,
-    /// The paths to open in Wu (space-separated).
+    /// The paths to open in YK Editor (space-separated).
     ///
     /// Use `path:line:column` syntax to open a file at the given line and column.
     #[arg(trailing_var_arg = true, value_hint = clap::ValueHint::AnyPath)]
     paths_with_position: Vec<String>,
-    /// Print Wu's version and the app path.
+    /// Print YK Editor's version and the app path.
     #[arg(short, long)]
     version: bool,
     /// Run wu in the foreground (useful for debugging)
@@ -920,7 +920,7 @@ mod linux {
     impl InstalledApp for App {
         fn zed_version_string(&self) -> String {
             format!(
-                "Wu {}{}{} – {}",
+                "YK Editor {}{}{} – {}",
                 if *release_channel::RELEASE_CHANNEL_NAME == "stable" {
                     "".to_string()
                 } else {
@@ -1085,7 +1085,7 @@ mod flatpak {
 
     pub fn set_bin_if_no_escape(mut args: super::Args) -> super::Args {
         if env::var(NO_ESCAPE_ENV_NAME).is_ok()
-            && env::var("FLATPAK_ID").is_ok_and(|id| id.starts_with("me.farshed.Wu"))
+            && env::var("FLATPAK_ID").is_ok_and(|id| id.starts_with("io.github.yathink3.yk-editor") || id.starts_with("me.farshed.Wu"))
             && args.zed.is_none()
         {
             args.zed = Some("/app/libexec/wu-editor".into());
@@ -1100,7 +1100,7 @@ mod flatpak {
         }
 
         if let Ok(flatpak_id) = env::var("FLATPAK_ID") {
-            if !flatpak_id.starts_with("me.farshed.Wu") {
+            if !flatpak_id.starts_with("io.github.yathink3.yk-editor") && !flatpak_id.starts_with("me.farshed.Wu") {
                 return None;
             }
 
@@ -1206,7 +1206,7 @@ mod windows {
     impl InstalledApp for App {
         fn zed_version_string(&self) -> String {
             format!(
-                "Wu {}{}{} – {}",
+                "YK Editor {}{}{} – {}",
                 if *release_channel::RELEASE_CHANNEL_NAME == "stable" {
                     "".to_string()
                 } else {
@@ -1382,7 +1382,7 @@ mod mac_os {
 
     impl InstalledApp for Bundle {
         fn zed_version_string(&self) -> String {
-            format!("Wu {} – {}", self.version(), self.path().display(),)
+            format!("YK Editor {} – {}", self.version(), self.path().display(),)
         }
 
         fn launch(&self, url: String, user_data_dir: Option<&str>) -> anyhow::Result<()> {

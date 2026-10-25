@@ -11,7 +11,7 @@ import { AppIcon } from './icons';
 
 const columns = [
   {
-    title: 'Wu',
+    title: 'YK Editor',
     links: [
       { label: 'Download', href: '/#download' },
       { label: 'Docs', href: '/docs/' },
@@ -58,7 +58,7 @@ export function Footer() {
       </nav>
       <div className="flex items-center gap-2.5 text-center text-sm text-tertiary">
         <AppIcon className="size-7 rounded-[24%]" />
-        Wu is licensed under GPL-3.0-or-later.
+        YK Editor is licensed under GPL-3.0-or-later.
       </div>
     </footer>
   );

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://wu.dstrml.org/sitemap.xml
+Sitemap: https://yathink3.github.io/yk-editor/sitemap.xml

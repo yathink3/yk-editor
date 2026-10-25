@@ -8,8 +8,8 @@ set -eu
 main() {
     platform="$(uname -s)"
     arch="$(uname -m)"
-    channel="${WU_CHANNEL:-${ZED_CHANNEL:-stable}}"
-    repo="dstrml/wu"
+    channel="${YK_CHANNEL:-${WU_CHANNEL:-${ZED_CHANNEL:-stable}}}"
+    repo="yathink3/yk-editor"
     version="${WU_VERSION:-${ZED_VERSION:-latest}}"
     bundle_path="${WU_BUNDLE_PATH:-${ZED_BUNDLE_PATH:-}}"
     if [ "$version" = "latest" ]; then
@@ -101,14 +101,14 @@ linux() {
     appid=""
     case "$channel" in
       stable)
-        appid="me.farshed.Wu"
+        appid="io.github.yathink3.yk-editor"
         ;;
       dev)
-        appid="me.farshed.Wu-Dev"
+        appid="io.github.yathink3.yk-editor-dev"
         ;;
       *)
         echo "Unknown release channel: ${channel}. Using stable app ID."
-        appid="me.farshed.Wu"
+        appid="io.github.yathink3.yk-editor"
         ;;
     esac
 
@@ -142,9 +142,9 @@ linux() {
 }
 
 macos() {
-    echo "Downloading Wu version: $version"
-    curl "$download_base/Wu-$arch.dmg" > "$temp/Wu-$arch.dmg"
-    hdiutil attach -quiet "$temp/Wu-$arch.dmg" -mountpoint "$temp/mount"
+    echo "Downloading YK Editor version: $version"
+    curl "$download_base/YK-Editor-$arch.dmg" > "$temp/YK-Editor-$arch.dmg"
+    hdiutil attach -quiet "$temp/YK-Editor-$arch.dmg" -mountpoint "$temp/mount"
     app="$(cd "$temp/mount/"; echo *.app)"
     echo "Installing $app"
     if [ -d "/Applications/$app" ]; then
@@ -156,6 +156,7 @@ macos() {
 
     mkdir -p "$HOME/.local/bin"
     # Link the binary
+    ln -sf "/Applications/$app/Contents/MacOS/cli" "$HOME/.local/bin/yk-editor"
     ln -sf "/Applications/$app/Contents/MacOS/cli" "$HOME/.local/bin/wu"
 }
 

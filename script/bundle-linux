@@ -154,11 +154,11 @@ export APP_CLI="wu"
 export APP_ICON="wu"
 export APP_ARGS="%U"
 if [[ "$channel" == "dev" ]]; then
-  export APP_NAME="Wu Dev"
-  APP_ID="me.farshed.Wu-Dev"
+  export APP_NAME="YK Editor Dev"
+  APP_ID="io.github.yathink3.yk-editor-dev"
 else
-  export APP_NAME="Wu"
-  APP_ID="me.farshed.Wu"
+  export APP_NAME="YK Editor"
+  APP_ID="io.github.yathink3.yk-editor"
 fi
 
 mkdir -p "${wu_dir}/share/applications"
@@ -170,11 +170,11 @@ cp "assets/licenses.md" "${wu_dir}/licenses.md"
 
 # Create archive out of everything that's in the temp directory
 arch=$(uname -m)
-archive="wu-linux-${arch}.tar.gz"
+archive="yk-editor-linux-${arch}.tar.gz"
 
 rm -rf "${archive}"
-remove_match="wu(-[a-zA-Z0-9]+)?-linux-$(uname -m)\.tar\.gz"
+remove_match="yk-editor(-[a-zA-Z0-9]+)?-linux-$(uname -m)\.tar\.gz"
 ls "${target_dir}/release" | grep -E ${remove_match} | xargs -d "\n" -I {} rm -f "${target_dir}/release/{}" || true
 tar -czvf "${target_dir}/release/$archive" -C ${temp_dir} "wu$suffix.app"
 
-gzip -f --stdout --best "${target_dir}/${remote_server_triple}/release/remote_server" > "${target_dir}/wu-remote-server-linux-${arch}.gz"
+gzip -f --stdout --best "${target_dir}/${remote_server_triple}/release/remote_server" > "${target_dir}/yk-editor-remote-server-linux-${arch}.gz"

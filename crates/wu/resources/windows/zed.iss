@@ -2,10 +2,10 @@
 AppId={#AppId}
 AppName={#AppName}
 AppVerName={#AppDisplayName}
-AppPublisher=Farshed
-AppPublisherURL=https://github.com/dstrml/wu
-AppSupportURL=https://github.com/dstrml/wu/issues
-AppUpdatesURL=https://github.com/dstrml/wu/releases
+AppPublisher=Yathin k
+AppPublisherURL=https://github.com/yathink3/yk-editor
+AppSupportURL=https://github.com/yathink3/yk-editor/issues
+AppUpdatesURL=https://github.com/yathink3/yk-editor/releases
 DefaultGroupName={#AppName}
 DisableProgramGroupPage=yes
 DisableReadyPage=yes

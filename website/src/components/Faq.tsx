@@ -4,36 +4,36 @@ import { INSTALL_GUIDE_URL, ISSUES_URL } from '../consts';
 
 const questions: { question: string; answer: ReactNode }[] = [
   {
-    question: 'Is Wu free?',
-    answer: "Yes. Wu is free and open source under GPL-3.0-or-later, the same license as Zed. There's no paid tier."
+    question: 'Is YK Editor free?',
+    answer: "Yes. YK Editor is free and open source under GPL-3.0-or-later, the same license as Zed and Wu. There's no paid tier."
   },
   {
-    question: 'Does Wu collect any data?',
-    answer: 'No. Wu has no telemetry, no crash reporting and no account. It never sends your usage data anywhere.'
+    question: 'Does YK Editor collect any data?',
+    answer: 'No. YK Editor has no telemetry, no crash reporting and no account. It never sends your usage data anywhere.'
   },
   {
-    question: 'Does Wu support AI coding agents?',
+    question: 'Does YK Editor support AI coding agents?',
     answer:
-      "Yes. Wu has built-in support for coding agents like Claude Code, Codex, and OpenCode. However, Wu doesn't support Zed's AI features, like the inline assistant and edit predictions."
+      "Yes. YK Editor has built-in support for coding agents like Claude Code, Codex, and OpenCode."
   },
   {
-    question: 'Do Zed extensions work in Wu?',
-    answer: 'Yes. Wu installs extensions from the Zed extension registry, and every Zed extension works.'
+    question: 'Do Zed extensions work in YK Editor?',
+    answer: 'Yes. YK Editor installs extensions from the Zed extension registry, and every Zed extension works.'
   },
   {
     question: 'Can I keep Zed installed too?',
     answer: (
       <>
-        Yes. Wu and Zed keep separate settings, in <code>~/.config/wu</code> and <code>~/.config/zed</code>. Copy your{' '}
+        Yes. YK Editor and Zed keep separate settings, in <code>~/.config/yk-editor</code> and <code>~/.config/zed</code>. Copy your{' '}
         <code>settings.json</code> and <code>keymap.json</code> over if you want the same setup in both.
       </>
     )
   },
   {
-    question: "Why does macOS say Wu can't be opened?",
+    question: "Why does macOS say YK Editor can't be opened?",
     answer: (
       <>
-        Wu isn't signed with an Apple Developer certificate yet, so macOS blocks it the first time. The{' '}
+        YK Editor isn't signed with an Apple Developer certificate yet, so macOS blocks it the first time. The{' '}
         <a href={INSTALL_GUIDE_URL} target="_blank" rel="noopener">
           install guide
         </a>{' '}
@@ -42,10 +42,10 @@ const questions: { question: string; answer: ReactNode }[] = [
     )
   },
   {
-    question: 'How is Wu different from Zed?',
+    question: 'How is YK Editor different from Zed and Wu?',
     answer: (
       <>
-        Wu drops Zed's AI service, collaboration and telemetry features. It has its own agent chat built on the Claude Code, Codex and OpenCode CLIs, its own look, and several other improvements over Zed. See <a href="/docs/">docs</a> for more.
+        YK Editor builds upon Wu and Zed with full independence, custom branding, agent workflows, and automated upstream synchronization with the Wu repository. See <a href="/docs/">docs</a> for more.
       </>
     )
   },
@@ -66,7 +66,7 @@ const questions: { question: string; answer: ReactNode }[] = [
 export function Faq() {
   return (
     <section className="mx-auto my-28 flex max-w-[1240px] flex-col items-center gap-3 px-8 max-sm:my-18 max-sm:px-4">
-      <p className="text-lg text-secondary">Questions people ask about Wu</p>
+      <p className="text-lg text-secondary">Questions people ask about YK Editor</p>
       <div className="grid w-[min(760px,100%)] gap-1.5">
         {questions.map(({ question, answer }) => (
           <details key={question} className="group rounded-xl card-raised">

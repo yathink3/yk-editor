@@ -74,7 +74,7 @@ impl UpdateLock {
         match file.try_lock() {
             Ok(()) => Ok(Self { _file: file }),
             Err(std::fs::TryLockError::WouldBlock) => {
-                anyhow::bail!("another Wu instance is already checking for updates")
+                anyhow::bail!("another YK Editor instance is already checking for updates")
             }
             Err(std::fs::TryLockError::Error(error)) => {
                 Err(error).with_context(|| format!("locking update lock at {path:?}"))
@@ -230,7 +230,7 @@ pub struct ReleaseAsset {
     pub digest: Option<String>,
 }
 
-const GITHUB_RELEASES_API_URL: &str = "https://api.github.com/repos/dstrml/wu/releases";
+const GITHUB_RELEASES_API_URL: &str = "https://api.github.com/repos/yathink3/yk-editor/releases";
 
 #[derive(Deserialize)]
 struct GitHubRelease {
@@ -248,10 +248,10 @@ struct GitHubReleaseAsset {
 
 fn github_asset_name(asset: &str, os: &str, arch: &str) -> Result<String> {
     match (asset, os) {
-        ("zed", "macos") => Ok(format!("Wu-{arch}.dmg")),
-        ("zed", "linux") => Ok(format!("wu-linux-{arch}.tar.gz")),
-        ("zed", "windows") => Ok(format!("Wu-{arch}.exe")),
-        ("wu-remote-server", _) => Ok(format!("wu-remote-server-{os}-{arch}.gz")),
+        ("zed", "macos") => Ok(format!("YK-Editor-{arch}.dmg")),
+        ("zed", "linux") => Ok(format!("yk-editor-linux-{arch}.tar.gz")),
+        ("zed", "windows") => Ok(format!("YK-Editor-{arch}.exe")),
+        ("wu-remote-server", _) => Ok(format!("yk-remote-server-{os}-{arch}.gz")),
         _ => anyhow::bail!("no release asset for {asset} on {os}"),
     }
 }
@@ -375,7 +375,7 @@ pub fn check(_: &Check, window: &mut Window, cx: &mut App) {
     {
         drop(window.prompt(
             gpui::PromptLevel::Info,
-            "Wu was installed via a package manager.",
+            "YK Editor was installed via a package manager.",
             Some(&message),
             &["OK"],
             cx,
@@ -412,9 +412,9 @@ pub fn release_notes_url(cx: &mut App) -> Option<String> {
             let mut current_version = auto_updater.current_version.clone();
             current_version.pre = semver::Prerelease::EMPTY;
             current_version.build = semver::BuildMetadata::EMPTY;
-            format!("https://github.com/dstrml/wu/releases/tag/v{current_version}")
+            format!("https://github.com/yathink3/yk-editor/releases/tag/v{current_version}")
         }
-        ReleaseChannel::Dev => "https://github.com/dstrml/wu/commits/main/".to_string(),
+        ReleaseChannel::Dev => "https://github.com/yathink3/yk-editor/commits/main/".to_string(),
     };
     Some(url)
 }
@@ -954,9 +954,9 @@ impl AutoUpdater {
 
     async fn target_path(installer_dir: &InstallerDir) -> Result<PathBuf> {
         let filename = match OS {
-            "macos" => anyhow::Ok("Wu.dmg"),
-            "linux" => Ok("wu.tar.gz"),
-            "windows" => Ok("Wu.exe"),
+            "macos" => anyhow::Ok("YK-Editor.dmg"),
+            "linux" => Ok("yk-editor.tar.gz"),
+            "windows" => Ok("YK-Editor.exe"),
             unsupported_os => anyhow::bail!("not supported: {unsupported_os}"),
         }?;
 
@@ -1260,7 +1260,7 @@ async fn install_release_linux(
 
     anyhow::ensure!(
         output.status.success(),
-        "failed to copy Wu update from {:?} to {:?}: {:?}",
+        "failed to copy YK Editor update from {:?} to {:?}: {:?}",
         from,
         to,
         String::from_utf8_lossy(&output.stderr)

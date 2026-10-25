@@ -16,36 +16,11 @@ pub const EDITORCONFIG_NAME: &str = ".editorconfig";
 /// and state directory paths.
 ///
 /// Forks should change this to avoid colliding with Zed's user data.
-pub const APP_NAME: &str = "Wu";
+pub const APP_NAME: &str = "YK Editor";
 
 /// Lowercased form of [`APP_NAME`], for use in XDG-style paths on
 /// Linux/FreeBSD and the macOS `~/.config` fallback.
-pub const APP_NAME_LOWERCASE: &str = {
-    assert!(!APP_NAME.is_empty(), "APP_NAME must not be empty");
-    assert!(APP_NAME.as_bytes().is_ascii(), "APP_NAME must be ASCII");
-    const BYTES: [u8; APP_NAME.len()] = {
-        let mut bytes = [0u8; APP_NAME.len()];
-        let mut i = 0;
-        while i < APP_NAME.len() {
-            assert!(
-                APP_NAME.as_bytes()[i] != b'/' && APP_NAME.as_bytes()[i] != b'\\',
-                "APP_NAME must not contain path separators",
-            );
-            assert!(
-                APP_NAME.as_bytes()[i] >= 0x20,
-                "APP_NAME must not contain control characters"
-            );
-            bytes[i] = APP_NAME.as_bytes()[i];
-            i += 1;
-        }
-        bytes.make_ascii_lowercase();
-        bytes
-    };
-    match std::str::from_utf8(&BYTES) {
-        Ok(s) => s,
-        Err(_) => unreachable!(),
-    }
-};
+pub const APP_NAME_LOWERCASE: &str = "yk-editor";
 
 /// A custom data directory override, set only by `set_custom_data_dir`.
 /// This is used to override the default data directory location.
@@ -498,15 +473,15 @@ pub fn remote_servers_dir() -> &'static PathBuf {
     REMOTE_SERVERS_DIR.get_or_init(|| data_dir().join("remote_servers"))
 }
 
-/// Returns the relative path to a `.wu` folder within a project.
+/// Returns the relative path to a `.yk-editor` folder within a project.
 pub fn local_settings_folder_name() -> &'static str {
-    ".wu"
+    ".yk-editor"
 }
 
-/// Returns the relative path to a `.zed` folder within a project, used as a
-/// fallback when there is no `.wu` folder.
+/// Returns the relative path to a `.wu` or `.zed` folder within a project, used as a
+/// fallback when there is no `.yk-editor` folder.
 pub fn legacy_local_settings_folder_name() -> &'static str {
-    ".zed"
+    ".wu"
 }
 
 /// Returns the relative path to a `.vscode` folder within a project.
@@ -514,8 +489,7 @@ pub fn local_vscode_folder_name() -> &'static str {
     ".vscode"
 }
 
-/// Picks the `.wu` config file over its `.zed` counterpart. The `.zed` file is
-/// only used when it exists and the `.wu` one does not.
+/// Picks the `.yk-editor` config file over its legacy counterparts.
 pub fn resolve_local_config_path<P: AsRef<RelPath>>(
     path: P,
     legacy_path: P,
@@ -531,30 +505,30 @@ pub fn resolve_local_config_path<P: AsRef<RelPath>>(
 /// Returns the relative path to a `settings.json` file within a project.
 pub fn local_settings_file_relative_path() -> &'static RelPath {
     static CACHED: LazyLock<&'static RelPath> =
-        LazyLock::new(|| RelPath::from_unix_str(".wu/settings.json").unwrap());
+        LazyLock::new(|| RelPath::from_unix_str(".yk-editor/settings.json").unwrap());
     *CACHED
 }
 
-/// Returns the relative path to a `.zed/settings.json` file within a project, used as a
-/// fallback when there is no `.wu/settings.json`.
+/// Returns the relative path to a `.wu/settings.json` file within a project, used as a
+/// fallback when there is no `.yk-editor/settings.json`.
 pub fn legacy_local_settings_file_relative_path() -> &'static RelPath {
     static CACHED: LazyLock<&'static RelPath> =
-        LazyLock::new(|| RelPath::from_unix_str(".zed/settings.json").unwrap());
+        LazyLock::new(|| RelPath::from_unix_str(".wu/settings.json").unwrap());
     *CACHED
 }
 
 /// Returns the relative path to a `tasks.json` file within a project.
 pub fn local_tasks_file_relative_path() -> &'static RelPath {
     static CACHED: LazyLock<&'static RelPath> =
-        LazyLock::new(|| RelPath::from_unix_str(".wu/tasks.json").unwrap());
+        LazyLock::new(|| RelPath::from_unix_str(".yk-editor/tasks.json").unwrap());
     *CACHED
 }
 
-/// Returns the relative path to a `.zed/tasks.json` file within a project, used as a
-/// fallback when there is no `.wu/tasks.json`.
+/// Returns the relative path to a `.wu/tasks.json` file within a project, used as a
+/// fallback when there is no `.yk-editor/tasks.json`.
 pub fn legacy_local_tasks_file_relative_path() -> &'static RelPath {
     static CACHED: LazyLock<&'static RelPath> =
-        LazyLock::new(|| RelPath::from_unix_str(".zed/tasks.json").unwrap());
+        LazyLock::new(|| RelPath::from_unix_str(".wu/tasks.json").unwrap());
     *CACHED
 }
 
@@ -574,18 +548,18 @@ pub fn task_file_name() -> &'static str {
 }
 
 /// Returns the relative path to a `debug.json` file within a project.
-/// .wu/debug.json
+/// .yk-editor/debug.json
 pub fn local_debug_file_relative_path() -> &'static RelPath {
     static CACHED: LazyLock<&'static RelPath> =
-        LazyLock::new(|| RelPath::from_unix_str(".wu/debug.json").unwrap());
+        LazyLock::new(|| RelPath::from_unix_str(".yk-editor/debug.json").unwrap());
     *CACHED
 }
 
-/// Returns the relative path to a `.zed/debug.json` file within a project, used as a
-/// fallback when there is no `.wu/debug.json`.
+/// Returns the relative path to a `.wu/debug.json` file within a project, used as a
+/// fallback when there is no `.yk-editor/debug.json`.
 pub fn legacy_local_debug_file_relative_path() -> &'static RelPath {
     static CACHED: LazyLock<&'static RelPath> =
-        LazyLock::new(|| RelPath::from_unix_str(".zed/debug.json").unwrap());
+        LazyLock::new(|| RelPath::from_unix_str(".wu/debug.json").unwrap());
     *CACHED
 }
 
