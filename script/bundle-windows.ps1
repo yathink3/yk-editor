@@ -111,7 +111,7 @@ function BuildRemoteServer {
     cargo build --release --package remote_server --target $target
 
     $remoteServerSrc = (Resolve-Path ".\$CargoOutDir\remote_server.exe").Path
-    $remoteServerDst = "$workspace\target\wu-remote-server-windows-$Architecture.gz"
+    $remoteServerDst = "$workspace\target\yk-editor-remote-server-windows-$Architecture.gz"
     Write-Output "Compressing remote_server to $remoteServerDst"
 
     $input = [System.IO.File]::OpenRead($remoteServerSrc)

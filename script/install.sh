@@ -1,27 +1,23 @@
 #!/usr/bin/env sh
 set -eu
 
-# Downloads a Wu release from GitHub and unpacks it into ~/.local/.
-# Optional: WU_VERSION=1.2.3 picks a release, WU_BUNDLE_PATH installs a local tarball.
-# The ZED_ names of these variables still work for older instructions.
+# Downloads a YK Editor release from GitHub and unpacks it into ~/.local/.
+# Optional: YK_VERSION=1.2.3 (or WU_VERSION/ZED_VERSION) picks a release,
+# YK_BUNDLE_PATH (or WU_BUNDLE_PATH/ZED_BUNDLE_PATH) installs a local bundle.
 
 main() {
     platform="$(uname -s)"
     arch="$(uname -m)"
     channel="${YK_CHANNEL:-${WU_CHANNEL:-${ZED_CHANNEL:-stable}}}"
     repo="yathink3/yk-editor"
-    version="${WU_VERSION:-${ZED_VERSION:-latest}}"
-    bundle_path="${WU_BUNDLE_PATH:-${ZED_BUNDLE_PATH:-}}"
-    if [ "$version" = "latest" ]; then
-        download_base="https://github.com/$repo/releases/latest/download"
-    else
-        download_base="https://github.com/$repo/releases/download/v$version"
-    fi
-    # Use TMPDIR if available (for environments with non-standard temp directories)
+    upstream_repo="dstrml/wu"
+    version="${YK_VERSION:-${WU_VERSION:-${ZED_VERSION:-latest}}}"
+    bundle_path="${YK_BUNDLE_PATH:-${WU_BUNDLE_PATH:-${ZED_BUNDLE_PATH:-}}}"
+
     if [ -n "${TMPDIR:-}" ] && [ -d "${TMPDIR}" ]; then
-        temp="$(mktemp -d "$TMPDIR/wu-XXXXXX")"
+        temp="$(mktemp -d "$TMPDIR/yk-editor-XXXXXX")"
     else
-        temp="$(mktemp -d "/tmp/wu-XXXXXX")"
+        temp="$(mktemp -d "/tmp/yk-editor-XXXXXX")"
     fi
 
     if [ "$platform" = "Darwin" ]; then
@@ -46,25 +42,63 @@ main() {
             ;;
     esac
 
-    if command -v curl >/dev/null 2>&1; then
-        curl () {
-            command curl -fL "$@"
-        }
-    elif command -v wget >/dev/null 2>&1; then
-        curl () {
-            wget -O- "$@"
-        }
-    else
-        echo "Could not find 'curl' or 'wget' in your path"
+    download_file() {
+        _url="$1"
+        _output="$2"
+        if command -v curl >/dev/null 2>&1; then
+            curl -fsSL "$_url" -o "$_output"
+        elif command -v wget >/dev/null 2>&1; then
+            wget -q -O "$_output" "$_url"
+        else
+            echo "Could not find 'curl' or 'wget' in your path"
+            exit 1
+        fi
+    }
+
+    fetch_release_asset() {
+        _primary_asset="$1"
+        _fallback_asset="$2"
+        _target_path="$3"
+
+        if [ "$version" = "latest" ]; then
+            _primary_url="https://github.com/$repo/releases/latest/download/$_primary_asset"
+            _alt_url="https://github.com/$repo/releases/latest/download/$_fallback_asset"
+            _upstream_url="https://github.com/$upstream_repo/releases/latest/download/$_fallback_asset"
+        else
+            _primary_url="https://github.com/$repo/releases/download/v$version/$_primary_asset"
+            _alt_url="https://github.com/$repo/releases/download/v$version/$_fallback_asset"
+            _upstream_url="https://github.com/$upstream_repo/releases/download/v$version/$_fallback_asset"
+        fi
+
+        echo "Downloading YK Editor ($version)..."
+        if download_file "$_primary_url" "$_target_path" 2>/dev/null; then
+            return 0
+        fi
+
+        if [ "$_primary_asset" != "$_fallback_asset" ]; then
+            if download_file "$_alt_url" "$_target_path" 2>/dev/null; then
+                return 0
+            fi
+        fi
+
+        echo "Release asset not found in $repo, attempting upstream ($upstream_repo)..."
+        if download_file "$_upstream_url" "$_target_path" 2>/dev/null; then
+            return 0
+        fi
+
+        echo "Error: Failed to download release asset ($_primary_asset / $_fallback_asset)."
+        echo "Checked URLs:"
+        echo " - $_primary_url"
+        echo " - $_upstream_url"
         exit 1
-    fi
+    }
 
     "$platform" "$@"
 
-    if [ "$(command -v wu)" = "$HOME/.local/bin/wu" ]; then
-        echo "Wu has been installed. Run with 'wu'"
+    if [ "$(command -v yk-editor 2>/dev/null)" = "$HOME/.local/bin/yk-editor" ] || [ "$(command -v wu 2>/dev/null)" = "$HOME/.local/bin/wu" ]; then
+        echo "YK Editor has been installed. Run with 'yk-editor'"
     else
-        echo "To run Wu from your terminal, you must add ~/.local/bin to your PATH"
+        echo "To run YK Editor from your terminal, you must add ~/.local/bin to your PATH"
         echo "Run:"
 
         case "$SHELL" in
@@ -81,16 +115,16 @@ main() {
                 ;;
         esac
 
-        echo "To run Wu now, '~/.local/bin/wu'"
+        echo "To run YK Editor now, '~/.local/bin/yk-editor'"
     fi
 }
 
 linux() {
+    tar_file="$temp/yk-editor-linux.tar.gz"
     if [ -n "$bundle_path" ]; then
-        cp "$bundle_path" "$temp/wu-linux-$arch.tar.gz"
+        cp "$bundle_path" "$tar_file"
     else
-        echo "Downloading Wu version: $version"
-        curl "$download_base/wu-linux-$arch.tar.gz" > "$temp/wu-linux-$arch.tar.gz"
+        fetch_release_asset "yk-editor-linux-$arch.tar.gz" "wu-linux-$arch.tar.gz" "$tar_file"
     fi
 
     suffix=""
@@ -113,17 +147,27 @@ linux() {
     esac
 
     # Unpack
-    rm -rf "$HOME/.local/wu$suffix.app"
-    mkdir -p "$HOME/.local/wu$suffix.app"
-    tar -xzf "$temp/wu-linux-$arch.tar.gz" -C "$HOME/.local/"
+    tar -xzf "$tar_file" -C "$HOME/.local/"
 
-    wu_editor="$HOME/.local/wu$suffix.app/libexec/wu-editor"
-    if [ -f "$wu_editor" ] && command -v ldd >/dev/null 2>&1; then
-        missing="$(ldd "$wu_editor" 2>/dev/null | sed -n 's/^[[:space:]]*\(.*\) => not found$/\1/p')"
+    if [ -d "$HOME/.local/yk-editor$suffix.app" ]; then
+        app_dir="$HOME/.local/yk-editor$suffix.app"
+    elif [ -d "$HOME/.local/wu$suffix.app" ]; then
+        app_dir="$HOME/.local/wu$suffix.app"
+    else
+        echo "Could not find unpacked app directory in ~/.local/"
+        exit 1
+    fi
+
+    editor_binary="$app_dir/libexec/yk-editor"
+    if [ ! -f "$editor_binary" ]; then
+        editor_binary="$app_dir/libexec/wu-editor"
+    fi
+    if [ -f "$editor_binary" ] && command -v ldd >/dev/null 2>&1; then
+        missing="$(ldd "$editor_binary" 2>/dev/null | sed -n 's/^[[:space:]]*\(.*\) => not found$/\1/p')"
         if [ -n "$missing" ]; then
-            echo "Warning: your system is missing libraries that Wu needs:"
+            echo "Warning: your system is missing libraries that YK Editor needs:"
             echo "$missing" | sed 's/^/    /'
-            echo "Install them with your package manager, or Wu will fail to start."
+            echo "Install them with your package manager, or YK Editor will fail to start."
         fi
     fi
 
@@ -131,20 +175,42 @@ linux() {
     mkdir -p "$HOME/.local/bin" "$HOME/.local/share/applications"
 
     # Link the binary
-    ln -sf "$HOME/.local/wu$suffix.app/bin/wu" "$HOME/.local/bin/wu"
+    cli_bin="$app_dir/bin/yk-editor"
+    if [ ! -f "$cli_bin" ]; then
+        cli_bin="$app_dir/bin/wu"
+    fi
+    ln -sf "$cli_bin" "$HOME/.local/bin/yk-editor"
+    ln -sf "$cli_bin" "$HOME/.local/bin/wu"
 
     # Copy .desktop file
     desktop_file_path="$HOME/.local/share/applications/${appid}.desktop"
-    src_dir="$HOME/.local/wu$suffix.app/share/applications"
-    cp "$src_dir/${appid}.desktop" "${desktop_file_path}"
-    sed -i "s|Icon=wu|Icon=$HOME/.local/wu$suffix.app/share/icons/hicolor/512x512/apps/wu.png|g" "${desktop_file_path}"
-    sed -i "s|Exec=wu|Exec=$HOME/.local/wu$suffix.app/bin/wu|g" "${desktop_file_path}"
+    src_dir="$app_dir/share/applications"
+    if [ -f "$src_dir/${appid}.desktop" ]; then
+        cp "$src_dir/${appid}.desktop" "${desktop_file_path}"
+    elif [ -f "$src_dir/me.farshed.Wu.desktop" ]; then
+        cp "$src_dir/me.farshed.Wu.desktop" "${desktop_file_path}"
+    fi
+
+    if [ -f "${desktop_file_path}" ]; then
+        icon_path="$app_dir/share/icons/hicolor/512x512/apps/yk-editor.png"
+        if [ ! -f "$icon_path" ]; then
+            icon_path="$app_dir/share/icons/hicolor/512x512/apps/wu.png"
+        fi
+        sed -i "s|Icon=.*|Icon=${icon_path}|g" "${desktop_file_path}"
+        sed -i "s|Exec=.*|Exec=$HOME/.local/bin/yk-editor|g" "${desktop_file_path}"
+    fi
 }
 
 macos() {
-    echo "Downloading YK Editor version: $version"
-    curl "$download_base/YK-Editor-$arch.dmg" > "$temp/YK-Editor-$arch.dmg"
-    hdiutil attach -quiet "$temp/YK-Editor-$arch.dmg" -mountpoint "$temp/mount"
+    dmg_file="$temp/YK-Editor.dmg"
+    if [ -n "$bundle_path" ]; then
+        cp "$bundle_path" "$dmg_file"
+    else
+        fetch_release_asset "YK-Editor-$arch.dmg" "Wu-$arch.dmg" "$dmg_file"
+    fi
+
+    mkdir -p "$temp/mount"
+    hdiutil attach -quiet "$dmg_file" -mountpoint "$temp/mount"
     app="$(cd "$temp/mount/"; echo *.app)"
     echo "Installing $app"
     if [ -d "/Applications/$app" ]; then
