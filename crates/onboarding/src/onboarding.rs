@@ -283,7 +283,7 @@ impl Render for Onboarding {
                                             .child(
                                                 v_flex()
                                                     .child(
-                                                        Headline::new("Welcome to Wu")
+                                                        Headline::new("Welcome to YK Editor")
                                                             .size(HeadlineSize::Small),
                                                     )
                                                     .child(

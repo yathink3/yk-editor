@@ -1,9 +1,14 @@
 <svg width="16" height="16" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g transform="translate(0 38)" fill="currentColor">
-<path d="m470 476-92-82-66-40-72-86-42-92 54-24 48 104 34 30 10-112 58 4-18 166 116 82-30 50Z"/>
-<path d="m554 476 92-82 66-40 72-86 42-92-54-24-48 104-34 30-10-112-58 4 18 166-116 82 30 50Z"/>
-<path d="m438 412-118-54 28 114 92 38 20-56-22-42Z"/>
-<path d="m586 412 118-54-28 114-92 38-20-56 22-42Z"/>
-<path fill-rule="evenodd" d="m512 300-92 94 22 252 70 150 70-150 22-252-92-94ZM500 342h24v214l-12 24-12-24V342Z"/>
+<g fill="currentColor">
+  <!-- Y: Left Arm & Stem -->
+  <path d="M 270 320 L 350 320 L 460 520 L 460 704 L 380 704 L 380 560 L 270 320 Z" />
+  <!-- Y: Right Arm -->
+  <path d="M 570 320 L 490 320 L 420 450 L 465 528 L 570 320 Z" />
+  <!-- K: Vertical Stem -->
+  <path d="M 484 320 L 564 320 L 564 704 L 484 704 Z" />
+  <!-- K: Upper Diagonal Branch -->
+  <path d="M 564 480 L 680 320 L 760 320 L 620 510 Z" />
+  <!-- K: Lower Diagonal Branch -->
+  <path d="M 580 470 L 760 704 L 675 704 L 540 525 Z" />
 </g>
 </svg>

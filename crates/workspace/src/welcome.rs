@@ -394,9 +394,9 @@ impl Render for WelcomePage {
         };
 
         let welcome_label = if self.fallback_to_recent_projects {
-            "Welcome back to Wu"
+            "Welcome back to YK Editor"
         } else {
-            "Welcome to Wu"
+            "Welcome to YK Editor"
         };
 
         h_flex()

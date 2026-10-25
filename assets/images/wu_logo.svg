@@ -1,38 +1,84 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
-  <title>Wu — geometric reindeer W</title>
-  <desc>A flat heraldic reindeer head whose four antler tips and central forehead establish a W rhythm.</desc>
+  <title>YK Editor — Modern Native Code Editor</title>
+  <defs>
+    <!-- Background Gradient -->
+    <radialGradient id="bg-glow" cx="50%" cy="45%" r="65%">
+      <stop offset="0%" stop-color="#1e2638" />
+      <stop offset="60%" stop-color="#11151f" />
+      <stop offset="100%" stop-color="#0b0d13" />
+    </radialGradient>
 
-  <!-- Wu tile -->
-  <path
-    fill="#171717"
-    d="M292 64C160 64 64 160 64 292v440c0 132 96 228 228 228h440c132 0 228-96 228-228V292C960 160 864 64 732 64H292Z"
-  />
+    <!-- Neon Cyan & Electric Blue Gradient -->
+    <linearGradient id="yk-grad-primary" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38ef7d" stop-opacity="0" />
+      <stop offset="0%" stop-color="#00f2fe" />
+      <stop offset="50%" stop-color="#4facfe" />
+      <stop offset="100%" stop-color="#0066ff" />
+    </linearGradient>
 
-  <!-- The mark's measured bounds are centered at (512, 512). -->
-  <g transform="translate(0 38)">
-    <!-- Left antler: two bold tines, designed to survive at 16–32 px. -->
-    <path
-      fill="#F2EEE4"
-      d="m470 476-92-82-66-40-72-86-42-92 54-24 48 104 34 30 10-112 58 4-18 166 116 82-30 50Z"
-    />
+    <linearGradient id="yk-grad-accent" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00c6ff" />
+      <stop offset="60%" stop-color="#0072ff" />
+      <stop offset="100%" stop-color="#ff9a44" />
+    </linearGradient>
 
-    <!-- Right antler mirrors the left and completes the W silhouette. -->
-    <path
-      fill="#F2EEE4"
-      d="m554 476 92-82 66-40 72-86 42-92-54-24-48 104-34 30-10-112-58 4 18 166-116 82 30 50Z"
-    />
+    <!-- Core Facet Highlights -->
+    <linearGradient id="facet-light" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#80d0ff" stop-opacity="0.3" />
+    </linearGradient>
 
-    <!-- Ears are broad triangular shoulders, not illustrative details. -->
-    <path fill="#F2EEE4" d="m438 412-118-54 28 114 92 38 20-56-22-42Z" />
-    <path fill="#F2EEE4" d="m586 412 118-54-28 114-92 38-20-56 22-42Z" />
+    <!-- Subtle Drop Shadow -->
+    <filter id="tile-shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="16" stdDeviation="24" flood-color="#000000" flood-opacity="0.6" />
+    </filter>
 
-    <!-- Tapered, faceted head. No eyes, nose, or mascot features. -->
-    <path
-      fill="#F2EEE4"
-      d="m512 300-92 94 22 252 70 150 70-150 22-252-92-94Z"
-    />
+    <filter id="neon-glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="12" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
 
-    <!-- Editor caret cut through the forehead. -->
-    <path fill="#171717" d="M500 342h24v214l-12 24-12-24V342Z" />
+  <!-- Squircle Base Tile -->
+  <rect x="96" y="96" width="832" height="832" rx="200" fill="url(#bg-glow)" stroke="#2a3449" stroke-width="4" filter="url(#tile-shadow)" />
+
+  <!-- Subtle Inner Border Highlight -->
+  <rect x="98" y="98" width="828" height="828" rx="198" fill="none" stroke="rgba(255, 255, 255, 0.08)" stroke-width="2" />
+
+  <!-- YK Monogram Group with Glow -->
+  <g filter="url(#neon-glow)" transform="translate(0, 0)">
+    <!-- Y: Left Arm -->
+    <path d="M 270 320 L 350 320 L 460 520 L 460 704 L 380 704 L 380 560 L 270 320 Z" 
+          fill="url(#yk-grad-primary)" />
+    
+    <!-- Y: Right Arm -->
+    <path d="M 570 320 L 490 320 L 420 450 L 465 528 L 570 320 Z" 
+          fill="url(#yk-grad-primary)" />
+
+    <!-- K: Vertical Stem -->
+    <path d="M 484 320 L 564 320 L 564 704 L 484 704 Z" 
+          fill="url(#yk-grad-accent)" />
+
+    <!-- K: Upper Diagonal Branch -->
+    <path d="M 564 480 L 680 320 L 760 320 L 620 510 Z" 
+          fill="url(#yk-grad-accent)" />
+
+    <!-- K: Lower Diagonal Branch -->
+    <path d="M 580 470 L 760 704 L 675 704 L 540 525 Z" 
+          fill="url(#yk-grad-primary)" />
+
+    <!-- Inner Code Caret / Bracket Accent -->
+    <polygon points="524,420 550,455 524,490 514,475 532,455 514,435" fill="#ffffff" opacity="0.9" />
+  </g>
+
+  <!-- Sharp Overlay Facets -->
+  <g fill="url(#facet-light)" opacity="0.4">
+    <!-- Highlight ridges on angled edges -->
+    <path d="M 270 320 L 350 320 L 380 370 L 290 350 Z" />
+    <path d="M 680 320 L 760 320 L 740 340 L 665 340 Z" />
+    <path d="M 484 320 L 564 320 L 550 340 L 498 340 Z" />
   </g>
 </svg>
